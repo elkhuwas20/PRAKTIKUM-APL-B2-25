@@ -46,9 +46,9 @@ void cetakHeaderUser();
 void inisialisasiHero();
 
 void tampilkanSemuaHero(struct Hero daftar[], int jumlah);
-void tambahHero(struct Hero daftar[], int *jumlah);
+void tambahHero(struct Hero daftar[], int &jumlah);
 void updateHero(struct Hero daftar[], int jumlah);
-void hapusHero(struct Hero daftar[], int *jumlah);
+void hapusHero(struct Hero daftar[], int &jumlah);
 
 void tampilkanSemuaUser(struct User daftar[], int jumlah);
 void tambahUser(struct User daftar[], int *jumlah);
@@ -367,15 +367,15 @@ void tampilkanSemuaHero(struct Hero daftar[], int jumlah) {
     printf("Jumlah hero Mage (rekursif): %d\n", jumlahMage);
 }
 
-void tambahHero(struct Hero daftar[], int *jumlah) {
-    if (*jumlah >= MAX_HERO) {
+void tambahHero(struct Hero daftar[], int &jumlah) {
+    if (jumlah >= MAX_HERO) {
         printf("Data hero sudah penuh!\n");
         return;
     }
     printf("\n--- Tambah Hero ---\n");
 
-    struct Hero *h = &daftar[*jumlah];
-    h->id = *jumlah + 1;
+    struct Hero *h = &daftar[jumlah];
+    h->id = jumlah + 1;
     printf("Nama Hero              : "); scanf(" %[^\n]", h->nama);
     printf("Lane                   : "); scanf(" %[^\n]", h->lane);
     printf("Rarity (Epic/Legend/Mythic): "); scanf(" %[^\n]", h->rarity);
@@ -384,7 +384,7 @@ void tambahHero(struct Hero daftar[], int *jumlah) {
     printf("Tier (S/A/B/C)         : "); scanf(" %[^\n]", h->stats.tier);
     printf("Win Rate (%%)           : "); scanf("%d", &h->stats.winRate);
 
-    (*jumlah)++;
+    jumlah++;
     printf("Hero berhasil ditambahkan!\n");
 
     printf("\n[Info Hero Baru]\n");
@@ -440,12 +440,12 @@ void updateHero(struct Hero daftar[], int jumlah) {
     printf("Hero berhasil diupdate!\n");
 }
 
-void hapusHero(struct Hero daftar[], int *jumlah) {
-    tampilkanSemuaHero(daftar, *jumlah);
+void hapusHero(struct Hero daftar[], int &jumlah) {
+    tampilkanSemuaHero(daftar, jumlah);
     printf("Masukkan ID hero yang ingin dihapus: ");
     int idx; scanf("%d", &idx);
     idx--;
-    if (idx < 0 || idx >= *jumlah) {
+    if (idx < 0 || idx >= jumlah) {
         printf("ID tidak valid!\n");
         return;
     }
@@ -456,11 +456,11 @@ void hapusHero(struct Hero daftar[], int *jumlah) {
     scanf(" %c", &konfirm);
     if (konfirm == 'y' || konfirm == 'Y') {
         int i;
-        for (i = idx; i < *jumlah - 1; i++) {
+        for (i = idx; i < jumlah - 1; i++) {
             daftar[i]    = daftar[i + 1];
             daftar[i].id = i + 1;
         }
-        (*jumlah)--;
+        jumlah--;
         printf("Hero berhasil dihapus!\n");
     } else {
         printf("Dibatalkan.\n");
@@ -590,10 +590,10 @@ void menuAdmin(int userLogin) {
         scanf("%d", &pilihan);
 
         switch (pilihan) {
-            case 1: tambahHero(daftarHero, &jumlahHero);          break;
+            case 1: tambahHero(daftarHero, jumlahHero);          break;
             case 2: tampilkanSemuaHero(daftarHero, jumlahHero);    break;
             case 3: updateHero(daftarHero, jumlahHero);            break;
-            case 4: hapusHero(daftarHero, &jumlahHero);            break;
+            case 4: hapusHero(daftarHero, jumlahHero);             break;
             case 5: tambahUser(daftarUser, &jumlahUser);           break;
             case 6: tampilkanSemuaUser(daftarUser, jumlahUser);    break;
             case 7: updateUser(daftarUser, jumlahUser);            break;
