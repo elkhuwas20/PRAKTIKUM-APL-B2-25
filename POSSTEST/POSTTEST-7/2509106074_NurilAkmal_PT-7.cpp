@@ -9,9 +9,6 @@ using namespace std;
 #define MAX_HERO 50
 #define MAX_USER 10
 
-// ============================================================
-//  CUSTOM EXCEPTION CLASSES
-// ============================================================
 class HeroException : public exception {
     char msg[200];
 public:
@@ -33,9 +30,6 @@ public:
     const char* what() const noexcept override { return msg; }
 };
 
-// ============================================================
-//  STRUCT DEFINITIONS
-// ============================================================
 struct HeroStats {
     char role[20];
     char tier[5];
@@ -57,9 +51,6 @@ struct User {
     char role[10];
 };
 
-// ============================================================
-//  GLOBAL DATA
-// ============================================================
 struct Hero daftarHero[MAX_HERO];
 int jumlahHero = 0;
 
@@ -71,9 +62,6 @@ struct User daftarUser[MAX_USER] = {
 };
 int jumlahUser = 4;
 
-// ============================================================
-//  FUNCTION DECLARATIONS
-// ============================================================
 void cetakGaris(int panjang);
 void cetakHeaderHero();
 void cetakBarisTamu();
@@ -108,9 +96,6 @@ void menuAdmin(int userLogin);
 void menuUser(int userLogin);
 void menuTamu();
 
-// ============================================================
-//  MAIN
-// ============================================================
 int main() {
     inisialisasiHero();
 
@@ -174,9 +159,6 @@ int main() {
     return 0;
 }
 
-// ============================================================
-//  INISIALISASI
-// ============================================================
 void inisialisasiHero() {
     jumlahHero = 5;
 
@@ -226,9 +208,7 @@ void inisialisasiHero() {
     daftarHero[4].stats.winRate    = 52;
 }
 
-// ============================================================
-//  UTILITAS CETAK
-// ============================================================
+
 void cetakGaris(int panjang) {
     int i;
     for (i = 0; i < panjang; i++) printf("=");
@@ -263,9 +243,6 @@ void cetakInfo_float(const char *label, float nilai) {
     printf("%-12s : %.2f\n", label, nilai);
 }
 
-// ============================================================
-//  SORTING (dengan exception handling)
-// ============================================================
 void sortNamaDescending(struct Hero daftar[], int jumlah) {
     try {
         if (jumlah == 0)
@@ -384,9 +361,6 @@ void sortWinRateDescending(struct Hero daftar[], int jumlah) {
     }
 }
 
-// ============================================================
-//  REKURSIF
-// ============================================================
 int cariHeroRekursif(struct Hero daftar[], int idx, int jumlah, const char *nama) {
     if (idx >= jumlah) return -1;
     if (strcmp(daftar[idx].nama, nama) == 0) return idx;
@@ -399,9 +373,6 @@ int hitungHeroDenganRole(struct Hero daftar[], int idx, int jumlah, const char *
     return tambah + hitungHeroDenganRole(daftar, idx + 1, jumlah, role);
 }
 
-// ============================================================
-//  SEARCHING (dengan exception handling)
-// ============================================================
 int cariHeroByNama(struct Hero *daftar, int jumlah, const char *targetNama) {
     try {
         if (jumlah == 0)
@@ -568,9 +539,6 @@ int cariHeroByHarga(struct Hero *daftar, int jumlah, int targetHarga) {
     }
 }
 
-// ============================================================
-//  LOGIN & REGISTRASI (dengan exception handling)
-// ============================================================
 int login(struct User daftar[], int jumlah, int *isAdmin) {
     char username[30], password[20];
     int kesempatan = 3, i;
@@ -644,9 +612,6 @@ void registrasi(struct User daftar[], int *jumlah) {
     }
 }
 
-// ============================================================
-//  CRUD HERO (dengan exception handling)
-// ============================================================
 void tampilkanSemuaHero(struct Hero daftar[], int jumlah) {
     try {
         if (jumlah == 0)
@@ -691,7 +656,7 @@ void tambahHero(struct Hero daftar[], int &jumlah) {
         printf("Tier (S/A/B/C)         : "); scanf(" %[^\n]", h->stats.tier);
         printf("Win Rate (%%)           : "); scanf("%d", &h->stats.winRate);
 
-        // Validasi input
+    
         if (strlen(h->nama) == 0)
             throw InputException("Nama hero tidak boleh kosong!");
         if (h->harga <= 0)
@@ -826,9 +791,6 @@ void hapusHero(struct Hero daftar[], int &jumlah) {
     }
 }
 
-// ============================================================
-//  CRUD USER (dengan exception handling)
-// ============================================================
 void tampilkanSemuaUser(struct User daftar[], int jumlah) {
     try {
         if (jumlah == 0)
@@ -977,9 +939,6 @@ void hapusUser(struct User daftar[], int *jumlah) {
     }
 }
 
-// ============================================================
-//  MENU
-// ============================================================
 void menuAdmin(int userLogin) {
     int pilihan;
     do {
