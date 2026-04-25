@@ -1,0 +1,345 @@
+╔═══════════════════════════════════════════════════════════════════════════════╗
+║                                                                               ║
+║                     GACHA HERO - PROGRAM ARCHITECTURE                         ║
+║                                                                               ║
+╚═══════════════════════════════════════════════════════════════════════════════╝
+
+
+📐 OVERALL ARCHITECTURE
+═══════════════════════════════════════════════════════════════════════════════
+
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                                                                             │
+│                        MAIN PROGRAM (main.cpp)                             │
+│                        ~50 lines                                           │
+│                                                                             │
+│    • Initialize data                                                       │
+│    • Setup console                                                         │
+│    • Call menuUtama()                                                      │
+│                                                                             │
+└────────────────────────────────┬────────────────────────────────────────────┘
+                                 │
+                                 ▼
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                                                                             │
+│                    USER-DEFINED LIBRARY: GachaHeroLib                      │
+│                         ~1100+ lines                                        │
+│                                                                             │
+│  ┌─────────────────────────────────────────────────────────────────────┐  │
+│  │  EXTERNAL LIBRARY USAGE (Windows API)                              │  │
+│  │  ├─ windows.h → Console color management                          │  │
+│  │  ├─ SetConsoleTextAttribute() → Color control                     │  │
+│  │  ├─ SetConsoleCP/OutputCP() → UTF-8 support                       │  │
+│  │  └─ GetStdHandle() → Console handle                               │  │
+│  └─────────────────────────────────────────────────────────────────────┘  │
+│                                                                             │
+│  ┌─────────────────────────────────────────────────────────────────────┐  │
+│  │  CORE MODULES                                                      │  │
+│  │                                                                     │  │
+│  │  1️⃣ Console Functions (5)                                         │  │
+│  │     • setConsoleColor()                                            │  │
+│  │     • resetConsoleColor()                                          │  │
+│  │     • clearScreen()                                                │  │
+│  │     • pauseScreen()                                                │  │
+│  │                                                                     │  │
+│  │  2️⃣ Formatting (8)                                                │  │
+│  │     • cetakGaris()                                                 │  │
+│  │     • cetakHeaderHero()                                            │  │
+│  │     • cetakInfo_*()                                                │  │
+│  │                                                                     │  │
+│  │  3️⃣ Hero Management (5)                                           │  │
+│  │     • inisialisasiHero()                                           │  │
+│  │     • tampilkanSemuaHero()                                         │  │
+│  │     • tambahHero()                                                 │  │
+│  │     • updateHero()                                                 │  │
+│  │     • hapusHero()                                                  │  │
+│  │                                                                     │  │
+│  │  4️⃣ User Management (6)                                           │  │
+│  │     • tampilkanSemuaUser()                                         │  │
+│  │     • tambahUser()                                                 │  │
+│  │     • updateUser()                                                 │  │
+│  │     • hapusUser()                                                  │  │
+│  │     • registrasi()                                                 │  │
+│  │     • login()                                                      │  │
+│  │                                                                     │  │
+│  │  5️⃣ Searching (4)                                                 │  │
+│  │     • cariHeroRekursif() - Recursive                              │  │
+│  │     • hitungHeroDenganRole() - Recursive counter                  │  │
+│  │     • cariHeroByNama() - Linear search with trace                 │  │
+│  │     • cariHeroByHarga() - Interpolation search with trace         │  │
+│  │                                                                     │  │
+│  │  6️⃣ Sorting (3)                                                   │  │
+│  │     • sortNamaDescending() - Bubble sort                          │  │
+│  │     • sortHargaAscending() - Selection sort                       │  │
+│  │     • sortWinRateDescending() - Insertion sort                    │  │
+│  │                                                                     │  │
+│  │  7️⃣ Menu System (4)                                               │  │
+│  │     • menuUtama() - Main menu                                      │  │
+│  │     • menuAdmin() - Admin interface                                │  │
+│  │     • menuUser() - User interface                                  │  │
+│  │     • menuTamu() - Guest view                                      │  │
+│  │                                                                     │  │
+│  └─────────────────────────────────────────────────────────────────────┘  │
+│                                                                             │
+└─────────────────────────────────────────────────────────────────────────────┘
+                                 │
+                                 ▼
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                                                                             │
+│                        DATA STRUCTURES                                      │
+│                                                                             │
+│  struct Hero:                    struct User:                              │
+│  ├─ id (int)                     ├─ username[30] (char[])                │
+│  ├─ nama[40] (char[])            ├─ password[20] (char[])                │
+│  ├─ lane[20] (char[])            └─ role[10] (char[])                    │
+│  ├─ harga (int)                                                            │
+│  ├─ rarity[15] (char[])          struct HeroStats:                        │
+│  └─ stats (HeroStats)            ├─ role[20] (char[])                    │
+│                                  ├─ tier[5] (char[])                      │
+│                                  └─ winRate (int)                          │
+│                                                                             │
+│  GLOBAL DATA:                                                              │
+│  ├─ Hero daftarHero[MAX_HERO] ──→ MAX 50 heroes                          │
+│  ├─ int jumlahHero                                                         │
+│  ├─ User daftarUser[MAX_USER] ──→ MAX 10 users (4 default)               │
+│  └─ int jumlahUser                                                         │
+│                                                                             │
+└─────────────────────────────────────────────────────────────────────────────┘
+                                 │
+                                 ▼
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                                                                             │
+│                     EXCEPTION HANDLING LAYER                              │
+│                                                                             │
+│  HeroException ──────────► std::exception                                 │
+│  UserException ──────────► std::exception                                 │
+│  InputException ─────────► std::exception                                 │
+│                                                                             │
+│  Try-catch blocks di setiap operasi penting                               │
+│  User-friendly error messages dengan warna                                │
+│                                                                             │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+
+🔄 PROGRAM FLOW DIAGRAM
+═══════════════════════════════════════════════════════════════════════════════
+
+START
+  │
+  ├─→ Setup Console (UTF-8, Title)
+  │
+  ├─→ Initialize Hero Data (5 defaults)
+  │
+  ├─→ menuUtama() ◄─────────────┐
+  │   │                          │
+  │   ├─→ Login                  │
+  │   │   ├─→ 3x attempts        │
+  │   │   ├─→ Validate          │
+  │   │   ├─→ menuAdmin()  OR   │
+  │   │   ├─→ menuUser()        │
+  │   │   │   (various operations)
+  │   │   └─→ logout ────────────┘
+  │   │
+  │   ├─→ Registrasi
+  │   │   ├─→ Validate username
+  │   │   └─→ Create account
+  │   │
+  │   ├─→ menuTamu() - Guest view
+  │   │   └─→ Display all heroes (read-only)
+  │   │
+  │   └─→ Exit
+  │
+  ├─→ Pause Screen
+  │
+  └─→ END
+
+
+📊 MENU HIERARCHY
+═══════════════════════════════════════════════════════════════════════════════
+
+                            MAIN MENU
+                                │
+                ┌───────────────┼───────────────┐
+                │               │               │
+            LOGIN          REGISTRASI       GUEST VIEW
+            ┌─┴─┐            │             (No Auth)
+            │   │            │               │
+        ADMIN MENU        Register         Display
+            │             Account         Heroes
+            │             (Add User)       (Read)
+        ┌───┴────┬─────────────────────────────┐
+        │        │                             │
+      HERO    USER              SEARCH        SORT
+      CRUD    CRUD              (2 types)     (3 types)
+      │       │                 │             │
+   Add Del    Add Del      Linear Search   BubbleSort
+   Upd View   Upd View     (substring)     SelectSort
+               │          InterpolSearch   InsertSort
+            Protected     (price)
+            (Admin only)
+
+
+🎨 COLOR SCHEME
+═══════════════════════════════════════════════════════════════════════════════
+
+Console Output Colors:
+
+HEADER SECTIONS
+  ├─ CYAN (Thick borders & dividers)
+  ├─ MAGENTA (Main titles)
+  └─ BLUE (Sub-titles)
+
+CONTENT
+  ├─ LIGHT_GRAY (Regular text)
+  ├─ WHITE (Input prompts & user input)
+  ├─ YELLOW (Important info & options)
+  ├─ GREEN (Success messages ✓)
+  ├─ RED (Error messages ✗)
+  └─ DARK_GRAY (Secondary info)
+
+UNICODE SYMBOLS
+  ├─ ✓ (Success checkmark) - GREEN
+  ├─ ✗ (Failure cross) - RED
+  ├─ ☆ (Star) - Various colors
+  ├─ ▶ (Arrow) - For menu categories
+  ├─ ➕ (Plus) - Add operations
+  ├─ ❌ (Cross) - Delete operations
+  ├─ 🔍 (Magnifying glass) - Search
+  ├─ 🔄 (Arrows) - Sort
+  ├─ 📋 (Clipboard) - View
+  ├─ ✏️ (Pencil) - Edit
+  └─ 🚪 (Door) - Logout
+
+
+📈 CLASS & FUNCTION COUNT
+═══════════════════════════════════════════════════════════════════════════════
+
+GachaHeroLib Statistics:
+
+Classes:              1
+  - GachaHeroLib (static class)
+
+Exception Classes:    3
+  - HeroException
+  - UserException
+  - InputException
+
+Data Structures:      3
+  - struct Hero
+  - struct User
+  - struct HeroStats
+
+Enumerations:         1
+  - ConsoleColor (15 colors)
+
+Static Methods:       36 functions
+  - Console: 4
+  - Formatting: 8
+  - Hero Management: 5
+  - User Management: 6
+  - Authentication: 1
+  - Searching: 4
+  - Sorting: 3
+  - Menu: 4
+  - Utility: 1
+
+
+🔗 DEPENDENCY GRAPH
+═══════════════════════════════════════════════════════════════════════════════
+
+main.cpp
+  │
+  └─→ #include "GachaHeroLib.h"
+       │
+       ├─→ windows.h (External - Windows API)
+       ├─→ stdio.h (Standard I/O)
+       ├─→ string.h (String functions)
+       ├─→ stdlib.h (Standard library)
+       ├─→ ctype.h (Character types)
+       └─→ stdexcept (Exception handling)
+
+
+📦 COMPILATION PROCESS
+═══════════════════════════════════════════════════════════════════════════════
+
+Source Files:
+├─ GachaHeroLib.cpp
+│  ├─ Compile to GachaHeroLib.o
+│  └─ Contains all library implementations
+│
+└─ 2509106074_NurilAkmal_PT-7_main.cpp
+   ├─ Compile to main.o
+   └─ Contains entry point
+
+Linking:
+  GachaHeroLib.o + main.o
+  │
+  └─→ GachaHeroML.exe (Executable)
+
+
+🚀 EXECUTION FLOW
+═══════════════════════════════════════════════════════════════════════════════
+
+GachaHeroML.exe
+  │
+  ├─→ SetConsoleCP(CP_UTF8)
+  ├─→ SetConsoleOutputCP(CP_UTF8)
+  ├─→ SetConsoleTitleW("⭐ GACHA HERO - MOBILE LEGENDS ⭐")
+  │
+  ├─→ inisialisasiHero()
+  │  └─→ Load 5 default heroes into daftarHero[]
+  │
+  └─→ menuUtama(daftarUser, &jumlahUser, daftarHero, &jumlahHero)
+     │
+     ├─→ Display main menu (colored)
+     ├─→ Get user input
+     │
+     ├─→ IF Login:
+     │  ├─→ login() validation
+     │  ├─→ IF Admin: menuAdmin()
+     │  └─→ IF User: menuUser()
+     │
+     ├─→ IF Registrasi:
+     │  └─→ registrasi() with validation
+     │
+     ├─→ IF Guest:
+     │  └─→ menuTamu() - read-only view
+     │
+     └─→ LOOP until Exit
+        └─→ pauseScreen()
+        └─→ EXIT
+
+
+✅ TESTING CHECKLIST
+═══════════════════════════════════════════════════════════════════════════════
+
+External Library Usage:
+  ✓ Console color functions working
+  ✓ UTF-8 encoding display correctly
+  ✓ Unicode symbols display
+  ✓ Windows API functions callable
+
+User-Defined Library:
+  ✓ All 36 functions accessible
+  ✓ Exception handling works
+  ✓ Data structures operate correctly
+  ✓ Menu system responsive
+
+Functionality:
+  ✓ Login/Logout working
+  ✓ CRUD operations functional
+  ✓ Searching algorithms correct
+  ✓ Sorting algorithms correct
+  ✓ Input validation working
+  ✓ Error messages displaying
+
+UI/UX:
+  ✓ Colors display properly
+  ✓ Menus formatted correctly
+  ✓ Tables aligned well
+  ✓ Messages clear and readable
+
+
+═══════════════════════════════════════════════════════════════════════════════
+                           Architecture Complete ✓
+═══════════════════════════════════════════════════════════════════════════════

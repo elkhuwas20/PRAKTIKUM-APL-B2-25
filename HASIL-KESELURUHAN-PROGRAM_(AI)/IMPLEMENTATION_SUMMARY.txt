@@ -1,0 +1,362 @@
+╔══════════════════════════════════════════════════════════════════════════════╗
+║                                                                              ║
+║         ⭐ GACHA HERO - MOBILE LEGENDS ⭐                                     ║
+║         Program Manajemen Hero dengan User-Defined Library                   ║
+║                                                                              ║
+║         POSTTEST 7 - Sistem yang Menarik dan Termodularisasi                ║
+║                                                                              ║
+╚══════════════════════════════════════════════════════════════════════════════╝
+
+📋 RINGKASAN IMPLEMENTASI
+════════════════════════════════════════════════════════════════════════════════
+
+REQUIREMENTS TERPENUHI:
+✅ Penggunaan library eksternal (Windows API untuk colored output)
+✅ Program dibuat semenarik mungkin (colorful UI dengan emojis & unicode)
+✅ Custom user-defined library (GachaHeroLib)
+
+
+📁 STRUKTUR PROGRAM
+════════════════════════════════════════════════════════════════════════════════
+
+File Structure:
+├── GachaHeroLib.h              (880 lines) - Header file dengan deklarasi
+├── GachaHeroLib.cpp            (1100+ lines) - Implementasi library lengkap
+├── 2509106074_NurilAkmal_PT-7_main.cpp  (50 lines) - Main program sederhana
+├── build.bat                   - Script untuk compile & run
+├── README.md                   - Dokumentasi lengkap
+└── GachaHeroML.exe             - Executable (hasil compile)
+
+
+🎨 EXTERNAL LIBRARY YANG DIGUNAKAN
+════════════════════════════════════════════════════════════════════════════════
+
+1. WINDOWS API (windows.h)
+   - SetConsoleCP() / SetConsoleOutputCP() - UTF-8 support
+   - GetStdHandle(STD_OUTPUT_HANDLE) - Handle console
+   - SetConsoleTextAttribute() - Set warna text
+   - SetConsoleTitleW() - Set judul window
+   
+   Fitur yang Diimplementasikan:
+   • 15 warna berbeda (BLACK, BLUE, GREEN, RED, YELLOW, CYAN, MAGENTA, dll)
+   • Background color support
+   • Unicode characters (✓, ✗, ☆, ▶, ➕, ❌, 🔍, 🔄, 🎮, dll)
+   • Clean screen functionality
+   • Console pause functionality
+
+
+📚 USER-DEFINED LIBRARY: GachaHeroLib
+════════════════════════════════════════════════════════════════════════════════
+
+Class Structure:
+┌─────────────────────────────────────────┐
+│       class GachaHeroLib                │
+│  (Static methods - library functions)   │
+└─────────────────────────────────────────┘
+         ↓
+    ├─ Console Functions (5)
+    ├─ Formatting Functions (8)
+    ├─ Hero Management (5)
+    ├─ User Management (6)
+    ├─ Authentication (1)
+    ├─ Searching Functions (4)
+    ├─ Sorting Functions (3)
+    └─ Menu Functions (4)
+
+Total Methods: 36 functions
+
+
+🔧 FITUR-FITUR PROGRAM
+════════════════════════════════════════════════════════════════════════════════
+
+A. CONSOLE ENHANCEMENT (External Library Usage)
+   ✓ setConsoleColor() - Ubah warna foreground & background
+   ✓ resetConsoleColor() - Reset ke warna default
+   ✓ clearScreen() - Clear layar console
+   ✓ pauseScreen() - Pause dan tunggu input
+   
+B. FORMATTING & UI
+   ✓ cetakGaris() - Print garis dengan warna cyan
+   ✓ cetakGarisDua() - Print garis dengan warna yellow
+   ✓ cetakHeaderHero() - Tabel header untuk hero
+   ✓ cetakHeaderUser() - Tabel header untuk user
+   ✓ cetakBarisTamu() - Header khusus guest view
+   ✓ cetakInfo_int/str/float() - Formatted info display dengan warna
+   
+C. HERO MANAGEMENT (CRUD)
+   ✓ inisialisasiHero() - Initialize 5 default heroes
+   ✓ tampilkanSemuaHero() - Display all with recursive count
+   ✓ tambahHero() - Add new hero dengan validasi
+   ✓ updateHero() - Update hero properties
+   ✓ hapusHero() - Delete hero dengan konfirmasi
+   
+D. USER MANAGEMENT (CRUD)
+   ✓ tampilkanSemuaUser() - Display all users
+   ✓ tambahUser() - Add new user dengan validasi
+   ✓ updateUser() - Update user properties
+   ✓ hapusUser() - Delete user (protect admin utama)
+   ✓ registrasi() - Register new account
+   ✓ login() - Login dengan 3x attempts
+
+E. SEARCHING ALGORITHMS
+   ✓ cariHeroRekursif() - Recursive linear search
+   ✓ hitungHeroDenganRole() - Recursive counter
+   ✓ cariHeroByNama() - Linear search with substring matching + trace
+   ✓ cariHeroByHarga() - Interpolation search + auto-sorting + trace
+
+F. SORTING ALGORITHMS
+   ✓ sortNamaDescending() - Bubble sort (Z-A)
+   ✓ sortHargaAscending() - Selection sort (kecil-besar)
+   ✓ sortWinRateDescending() - Insertion sort (tinggi-rendah)
+
+G. MENU SYSTEM
+   ✓ menuUtama() - Main menu dengan login options
+   ✓ menuAdmin() - 12 options untuk admin
+   ✓ menuUser() - 3 options untuk user
+   ✓ menuTamu() - Guest view menu
+
+H. EXCEPTION HANDLING
+   ✓ HeroException - Untuk error terkait hero
+   ✓ UserException - Untuk error terkait user
+   ✓ InputException - Untuk error validasi input
+   ✓ Try-catch di setiap operasi penting
+
+
+🎯 KEUNGGULAN IMPLEMENTASI
+════════════════════════════════════════════════════════════════════════════════
+
+1. MODULARISASI
+   ✓ Semua fungsi dipisah ke library (GachaHeroLib)
+   ✓ Main file hanya 50 lines
+   ✓ Mudah untuk re-use atau extend
+
+2. USER INTERFACE
+   ✓ Colorful console output (15 warna)
+   ✓ Unicode characters (emojis & symbols)
+   ✓ Professional-looking menus
+   ✓ Clear formatting dengan borders
+
+3. DATA VALIDATION
+   ✓ Input validation di setiap operasi
+   ✓ Exception handling yang comprehensive
+   ✓ User-friendly error messages
+
+4. ALGORITHMS
+   ✓ 3 sorting algorithms berbeda
+   ✓ 3 searching algorithms berbeda
+   ✓ Recursive implementation
+   ✓ Algorithm trace/visualization
+
+5. SECURITY
+   ✓ Login dengan 3x attempts
+   ✓ Role-based access (Admin/User)
+   ✓ Protect admin utama dari deletion
+   ✓ Password storage (simple)
+
+6. SCALABILITY
+   ✓ MAX_HERO = 50, MAX_USER = 10
+   ✓ Easy to modify constants
+   ✓ Array-based (dapat diupgrade ke linked list)
+
+
+📊 KOMPLEKSITAS ALGORITMA
+════════════════════════════════════════════════════════════════════════════════
+
+SORTING:
+┌──────────────────────────────────────────────┐
+│ Algoritma          │ Time Complexity         │
+├──────────────────────────────────────────────┤
+│ Bubble Sort        │ O(n²) - average/worst   │
+│ Selection Sort     │ O(n²) - always          │
+│ Insertion Sort     │ O(n) best, O(n²) worst  │
+└──────────────────────────────────────────────┘
+
+SEARCHING:
+┌──────────────────────────────────────────────┐
+│ Algoritma           │ Time Complexity        │
+├──────────────────────────────────────────────┤
+│ Linear Search       │ O(n)                   │
+│ Interpolation Search│ O(log log n) average   │
+│ Recursive Search    │ O(n)                   │
+└──────────────────────────────────────────────┘
+
+
+🎮 CONTOH PENGGUNAAN
+════════════════════════════════════════════════════════════════════════════════
+
+DEFAULT ACCOUNTS:
+┌────────────┬──────────┬────────┐
+│ Username   │ Password │ Role   │
+├────────────┼──────────┼────────┤
+│ Akmal      │ 074      │ Admin  │
+│ Nuril      │ 123      │ User   │
+│ Triya      │ 321      │ User   │
+│ Pernanda   │ 111      │ User   │
+└────────────┴──────────┴────────┘
+
+DEMO HEROES (5 default):
+┌────┬──────────┬──────────┬────────┬────────┬──────────┬──────┬────┐
+│ ID │ Nama     │ Lane     │ Rarity │ Harga  │ Role     │ Tier │ W% │
+├────┼──────────┼──────────┼────────┼────────┼──────────┼──────┼────┤
+│ 1  │ Layla    │ Gold     │ Epic   │ 150    │ Marksman │ B    │ 51 │
+│ 2  │ Tigreal  │ EXP      │ Epic   │ 200    │ Tank     │ A    │ 54 │
+│ 3  │ Kagura   │ Mid      │ Legend │ 600    │ Mage     │ S    │ 57 │
+│ 4  │ Hayabusa │ Jungle   │ Legend │ 500    │ Assassin │ S    │ 55 │
+│ 5  │ Odette   │ Mid      │ Epic   │ 300    │ Mage     │ A    │ 52 │
+└────┴──────────┴──────────┴────────┴────────┴──────────┴──────┴────┘
+
+
+💡 TEKNOLOGI STACK
+════════════════════════════════════════════════════════════════════════════════
+
+Language:
+  • C++ (C++17 standard)
+  • Procedural + Object-Oriented (Static class)
+
+Libraries:
+  • windows.h (Windows API)
+  • stdio.h, string.h, stdlib.h, ctype.h
+  • stdexcept (Exception handling)
+
+Tools:
+  • MinGW (g++ compiler)
+  • VS Code (IDE)
+  • Windows Console
+
+Version Control Ready:
+  ✓ Modular structure
+  ✓ Clean code
+  ✓ Comprehensive comments
+
+
+📈 STATISTIK KODE
+════════════════════════════════════════════════════════════════════════════════
+
+GachaHeroLib.h
+  • Lines: 880
+  • Classes: 1 (GachaHeroLib)
+  • Methods: 36 (static)
+  • Enums: 1 (ConsoleColor)
+  • Structs: 3 (Hero, User, HeroStats)
+  • Exception Classes: 3
+
+GachaHeroLib.cpp
+  • Lines: 1100+
+  • Implementation: 36 functions
+  • Comments: ~10%
+
+2509106074_NurilAkmal_PT-7_main.cpp
+  • Lines: 50
+  • Clean and minimal
+  • All logic in library
+
+Total Project:
+  • Lines of Code: ~2000+
+  • Number of Algorithms: 6
+  • Number of Features: 20+
+  • Compilation Time: <1s
+
+
+🚀 CARA MENJALANKAN
+════════════════════════════════════════════════════════════════════════════════
+
+Opsi 1: Double-click build.bat
+  → Automatic compile & run
+
+Opsi 2: Command line
+  cd "POSTTEST-7"
+  g++.exe -std=c++17 -o GachaHeroML.exe GachaHeroLib.cpp 2509106074_NurilAkmal_PT-7_main.cpp
+  GachaHeroML.exe
+
+Opsi 3: VS Code
+  Ctrl+Shift+B (Run Build Task)
+
+
+✅ CHECKLIST REQUIREMENTS
+════════════════════════════════════════════════════════════════════════════════
+
+Penggunaan Library Eksternal:
+  ✓ windows.h (Windows API)
+  ✓ SetConsoleTextAttribute() untuk color
+  ✓ SetConsoleCP/OutputCP() untuk UTF-8
+  ✓ SetConsoleTitleW() untuk title
+  ✓ GetStdHandle() untuk console handle
+
+Membuat Program Semenarik Mungkin:
+  ✓ Colored console output (15 warna)
+  ✓ Unicode symbols dan emojis
+  ✓ Professional menu interface
+  ✓ Formatted tables
+  ✓ Algorithm trace visualization
+  ✓ Animation (clear screen, pauses)
+
+Membuat & Menggunakan User-Defined Library:
+  ✓ GachaHeroLib.h - Header file lengkap
+  ✓ GachaHeroLib.cpp - Implementasi lengkap
+  ✓ 36 library functions
+  ✓ Clean separation of concerns
+  ✓ Modular architecture
+  ✓ Reusable components
+
+
+🎓 PEMBELAJARAN YANG DITERAPKAN
+════════════════════════════════════════════════════════════════════════════════
+
+1. Data Structures
+   - Struct untuk complex data
+   - Array untuk storage
+   - Pass by reference vs value
+
+2. Algorithms
+   - Sorting: Bubble, Selection, Insertion
+   - Searching: Linear, Interpolation, Recursive
+   - Time/Space Complexity Analysis
+
+3. OOP Concepts
+   - Static class methods
+   - Exception classes (inheritance)
+   - Encapsulation
+
+4. Exception Handling
+   - Custom exceptions
+   - Try-catch blocks
+   - Meaningful error messages
+
+5. UI/UX
+   - Console manipulation
+   - Color usage for clarity
+   - User-friendly interface
+
+6. Software Engineering
+   - Modular design
+   - Code reusability
+   - Documentation
+   - Build automation
+
+
+📝 NOTES
+════════════════════════════════════════════════════════════════════════════════
+
+• Program menggunakan Windows-specific libraries
+• Compile dengan g++ -std=c++17
+• Unicode support memerlukan Windows console
+• Maximum 50 heroes dan 10 users
+• Default 5 heroes dari Mobile Legends original
+
+
+🎮 READY TO USE!
+════════════════════════════════════════════════════════════════════════════════
+
+Program sudah siap digunakan dengan:
+  ✓ Fully compiled executable
+  ✓ Comprehensive documentation
+  ✓ Build automation script
+  ✓ Default test data
+  ✓ Clean modular architecture
+
+Silakan jalankan GachaHeroML.exe atau build.bat untuk memulai!
+
+
+════════════════════════════════════════════════════════════════════════════════
+Terima kasih telah menggunakan Gacha Hero - Mobile Legends! 🎮✨
+════════════════════════════════════════════════════════════════════════════════
